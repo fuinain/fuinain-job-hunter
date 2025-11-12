@@ -1,0 +1,15 @@
+# Ignore Java files - use Java formatter instead
+*.java
+
+# Ignore Gradle files
+build.gradle*
+settings.gradle*
+gradlew*
+
+# Keep other files for Prettier
+!*.js
+!*.ts
+!*.json
+!*.md
+!*.yaml
+!*.yml
