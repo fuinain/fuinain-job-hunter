@@ -1,4 +1,4 @@
-package com.example.domain.dto;
+package com.example.domain.response;
 
 import com.example.util.constant.GenderEnum;
 import lombok.Getter;
@@ -15,4 +15,13 @@ public class ResUpdateUserDTO {
     private String address;
     private int age;
     private Instant updatedAt;
+
+    private CompanyUser company;
+
+    @Getter
+    @Setter
+    public static class CompanyUser {
+        private long id;
+        private String name;
+    }
 }

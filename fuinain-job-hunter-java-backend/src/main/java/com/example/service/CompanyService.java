@@ -2,9 +2,9 @@ package com.example.service;
 
 import com.example.domain.Company;
 import com.example.domain.User;
-import com.example.domain.dto.Meta;
-import com.example.domain.dto.ResultPaginantionDTO;
+import com.example.domain.response.ResultPaginantionDTO;
 import com.example.repository.CompanyRepository;
+import com.example.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,8 +17,10 @@ import java.util.Optional;
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
 
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(CompanyRepository companyRepository, UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.companyRepository = companyRepository;
     }
 
@@ -29,7 +31,7 @@ public class CompanyService {
     public ResultPaginantionDTO handleGetAllCompanies(Specification<Company> spec, Pageable pageable) {
         Page<Company> pageCompanies = this.companyRepository.findAll(spec, pageable);
         ResultPaginantionDTO rs = new ResultPaginantionDTO();
-        Meta mt = new Meta();
+        ResultPaginantionDTO.Meta mt = new ResultPaginantionDTO.Meta();
 
         mt.setPage(pageable.getPageNumber() + 1);
         mt.setPageSize(pageable.getPageSize());
@@ -57,6 +59,16 @@ public class CompanyService {
     }
 
     public void handleDeleteCompany(long id) {
+        Optional<Company> companyOptional = this.companyRepository.findById(id);
+        if (companyOptional.isPresent()){
+            Company com = companyOptional.get();
+            List<User> users = this.userRepository.findByCompanyId(com);
+            this.userRepository.deleteAll(users);
+        }
         this.companyRepository.deleteById(id);
+    }
+
+    public Optional<Company> findByID(long id) {
+        return this.companyRepository.findById(id);
     }
 }

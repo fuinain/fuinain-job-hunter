@@ -1,6 +1,6 @@
-package com.example.domain.dto;
+package com.example.domain.request;
 
-public class LoginDTO {
+public class ReqLoginDTO {
     private String username;
     private String password;
 

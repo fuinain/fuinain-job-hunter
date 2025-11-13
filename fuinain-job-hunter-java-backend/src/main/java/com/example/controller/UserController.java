@@ -1,17 +1,13 @@
 package com.example.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import com.example.domain.dto.ResCreateUserDTO;
-import com.example.domain.dto.ResUpdateUserDTO;
-import com.example.domain.dto.ResUserDTO;
-import com.example.domain.dto.ResultPaginantionDTO;
+import com.example.domain.response.ResCreateUserDTO;
+import com.example.domain.response.ResUpdateUserDTO;
+import com.example.domain.response.ResUserDTO;
+import com.example.domain.response.ResultPaginantionDTO;
 import com.example.util.annotation.ApiMessage;
 import com.example.util.error.IdInvalidException;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;

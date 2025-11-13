@@ -1,8 +1,8 @@
 package com.example.controller;
 
 import com.example.domain.User;
-import com.example.domain.dto.LoginDTO;
-import com.example.domain.dto.ResLoginDTO;
+import com.example.domain.request.ReqLoginDTO;
+import com.example.domain.response.ResLoginDTO;
 import com.example.service.UserService;
 import com.example.util.SecurityUtil;
 import com.example.util.annotation.ApiMessage;
@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResLoginDTO> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<ResLoginDTO> login(@RequestBody ReqLoginDTO loginDTO) {
         // Tạo đối tượng AuthenticationToken từ thông tin đăng nhập vào Security
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDTO.getUsername(), loginDTO.getPassword());

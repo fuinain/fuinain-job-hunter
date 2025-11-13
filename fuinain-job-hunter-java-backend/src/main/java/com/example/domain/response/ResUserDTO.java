@@ -1,4 +1,4 @@
-package com.example.domain.dto;
+package com.example.domain.response;
 
 import com.example.util.constant.GenderEnum;
 import lombok.AllArgsConstructor;
@@ -21,4 +21,15 @@ public class ResUserDTO {
     private int age;
     private Instant createdAt;
     private Instant updatedAt;
+
+    private CompanyUser company;
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CompanyUser {
+        private long id;
+        private String name;
+    }
 }

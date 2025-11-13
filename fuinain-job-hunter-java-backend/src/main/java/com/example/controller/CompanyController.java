@@ -1,8 +1,7 @@
 package com.example.controller;
 
 import com.example.domain.Company;
-import com.example.domain.User;
-import com.example.domain.dto.ResultPaginantionDTO;
+import com.example.domain.response.ResultPaginantionDTO;
 import com.example.service.CompanyService;
 import com.example.util.annotation.ApiMessage;
 import com.turkraft.springfilter.boot.Filter;
@@ -12,8 +11,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")

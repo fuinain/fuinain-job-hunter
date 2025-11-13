@@ -1,5 +1,6 @@
-package com.example.domain.dto;
+package com.example.domain.response;
 
+import com.example.domain.Company;
 import com.example.util.constant.GenderEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +17,13 @@ public class ResCreateUserDTO {
     private String address;
     private int age;
     private Instant createdAt;
+    private CompanyUser company;
+
+    @Getter
+    @Setter
+    public static class CompanyUser {
+        private long id;
+        private String name;
+    }
+
 }
