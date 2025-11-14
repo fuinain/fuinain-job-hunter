@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.domain.Job;
-import com.example.domain.response.ResCreateUserDTO;
 import com.example.domain.response.ResultPaginantionDTO;
 import com.example.domain.response.job.ResCreateJobDTO;
 import com.example.domain.response.job.ResUpdateJobDTO;
@@ -13,7 +12,6 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,7 +61,7 @@ public class JobController {
     @GetMapping("/jobs")
     @ApiMessage("fetch all jobs")
     public ResponseEntity<ResultPaginantionDTO> getAllJobs(
-            @Filter Specification spec,
+            @Filter Specification<Job> spec,
             Pageable pageable
             ) {
         return ResponseEntity.ok().body(this.jobService.fetchAll(spec, pageable));
