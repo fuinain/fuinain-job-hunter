@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.domain.Company;
+import com.example.domain.Role;
 import com.example.domain.response.ResCreateUserDTO;
 import com.example.domain.response.ResUpdateUserDTO;
 import com.example.domain.response.ResUserDTO;
@@ -22,8 +23,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final CompanyService companyService;
+    private final RoleService roleService;
 
-    public UserService(UserRepository userRepository, CompanyService companyService) {
+    public UserService(UserRepository userRepository, CompanyService companyService, RoleService roleService) {
+        this.roleService = roleService;
         this.companyService = companyService;
         this.userRepository = userRepository;
     }
@@ -33,6 +36,12 @@ public class UserService {
         if (user.getCompany() != null) {
             Optional<Company> companyOptional = this.companyService.findByID(user.getCompany().getId());
             user.setCompany(companyOptional.isPresent() ? companyOptional.get() : null);
+        }
+
+        // check role
+        if (user.getRole() != null) {
+            Role r = this.roleService.fetchById(user.getRole().getId());
+            user.setRole(r != null ? r : null);
         }
         return this.userRepository.save(user);
     }

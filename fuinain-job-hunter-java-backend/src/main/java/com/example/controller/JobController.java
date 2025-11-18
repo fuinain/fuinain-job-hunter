@@ -38,7 +38,7 @@ public class JobController {
         if (!currentJob.isPresent()) throw new IdInvalidException("Job ID not exist");
 
         return ResponseEntity.ok()
-                .body(this.jobService.update(job));
+                .body(this.jobService.update(job, currentJob.get()));
     }
 
     @DeleteMapping("/jobs/{id}")

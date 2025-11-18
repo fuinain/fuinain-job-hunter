@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1")
 public class CompanyController {
@@ -46,4 +49,12 @@ public class CompanyController {
         this.companyService.handleDeleteCompany(id);
         return ResponseEntity.ok(null);
     }
+
+    @GetMapping("/companies/{id}")
+    @ApiMessage("fetch company by id")
+    public ResponseEntity<Company> fetchCompanyById(@PathVariable("id") long id) {
+        Optional<Company> companyOptional = this.companyService.findByID(id);
+        return ResponseEntity.ok().body(companyOptional.get());
+    }
+
 }

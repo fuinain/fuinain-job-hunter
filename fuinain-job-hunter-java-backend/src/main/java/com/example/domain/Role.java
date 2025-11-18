@@ -1,10 +1,10 @@
 package com.example.domain;
 
 import com.example.util.SecurityUtil;
-import com.example.util.constant.LevelEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,46 +12,32 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "jobs")
+@Table(name = "roles")
 @Getter
 @Setter
-public class Job {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Role name must not be blank")
     private String name;
-    private String location;
-    private double salary;
-    private int quantity;
 
-    @Enumerated(EnumType.STRING)
-    private LevelEnum level;
-
-    @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
-    private Instant startDate;
-    private Instant endDate;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = {"roles"})
+    @JoinTable(name = "permission_role", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    private List<Permission> permissions;
 
-    @ManyToMany
-    @JsonIgnoreProperties(value = {"jobs"})
-    @JoinTable(name = "job_skills",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id"))
-    private List<Skill> skills;
-
-    @OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @JsonIgnore
-    List<Resume> resumes;
+    List<User> users;
 
     @PrePersist
     public void handleBeforeCreate() {
@@ -64,5 +50,4 @@ public class Job {
         this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
         this.updatedAt = Instant.now();
     }
-
 }
