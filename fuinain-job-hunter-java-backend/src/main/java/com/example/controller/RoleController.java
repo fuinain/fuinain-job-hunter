@@ -37,9 +37,6 @@ public class RoleController {
         if (this.roleService.fetchById(role.getId()) == null)
             throw new IdInvalidException("Role not found");
 
-        if (this.roleService.existByName(role.getName()))
-            throw new IdInvalidException("Role already exists");
-
         return ResponseEntity.ok().body(this.roleService.update(role));
     }
 
@@ -59,6 +56,15 @@ public class RoleController {
             Pageable pageable
     ) throws IdInvalidException {
         return ResponseEntity.ok().body(this.roleService.getRole(spec, pageable));
+    }
+
+    @GetMapping("/roles/{id}")
+    @ApiMessage("Fetch role by id")
+    public ResponseEntity<Role> getById(@PathVariable long id) throws IdInvalidException {
+        Role role = this.roleService.fetchById(id);
+        if (role == null)
+            throw new IdInvalidException("Role not found");
+        return ResponseEntity.ok().body(role);
     }
 
 }

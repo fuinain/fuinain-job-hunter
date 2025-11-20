@@ -28,6 +28,10 @@ public class Skill {
     @JsonIgnore
     private List<Job> jobs;
 
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Subscriber> subscribers;
+
     @PrePersist
     public void handleBeforeCreate() {
         this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";

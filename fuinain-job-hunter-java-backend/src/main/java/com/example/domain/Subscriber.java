@@ -1,53 +1,43 @@
 package com.example.domain;
 
 import com.example.util.SecurityUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "permissions")
+@Table(name = "subscribers")
 @Getter
 @Setter
-@NoArgsConstructor
-public class Permission {
+public class Subscriber {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "name must not be blank")
+    @NotBlank(message = "Email không được để trống")
+    private String email;
+
+    @NotBlank(message = "Name không được để trống")
     private String name;
 
-    @NotBlank(message = "apiPath must not be blank")
-    private String apiPath;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = {"subscrib  ers"})
+    @JoinTable(name = "subscriber_skill",
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private List<Skill> skills;
 
-    @NotBlank(message = "method must not be blank")
-    private String method;
 
-    @NotBlank(message = "module must not be blank")
-    private String module;
 
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-
-    public Permission (String name, String apiPath, String method, String module) {
-        this.name = name;
-        this.apiPath = apiPath;
-        this.method = method;
-        this.module = module;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions")
-    @JsonIgnore
-    private List<Role> roles;
 
     @PrePersist
     public void handleBeforeCreate() {

@@ -40,7 +40,8 @@ public class PermissionController {
             throw new IdInvalidException("Permission not found");
 
         if (this.permissionService.isPermissionExist(permission))
-            throw new IdInvalidException("Permission already exists");
+            if (this.permissionService.isSameName(permission))
+                throw new IdInvalidException("Permission already exists");
 
         return ResponseEntity.ok().body(this.permissionService.update(permission));
     }
